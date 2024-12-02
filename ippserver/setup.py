@@ -1,3 +1,8 @@
+"""
+Copyright (c) 2017, 2018: David Batley (h2g2bob), Alexander (devkral)
+
+All rights reserved.
+"""
 #! /usr/bin/python
 
 from setuptools import setup, find_packages

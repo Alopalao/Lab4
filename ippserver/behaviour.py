@@ -1,3 +1,8 @@
+"""
+Copyright (c) 2017, 2018: David Batley (h2g2bob), Alexander (devkral)
+
+All rights reserved.
+"""
 
 from __future__ import division
 from __future__ import absolute_import
