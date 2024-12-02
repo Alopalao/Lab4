@@ -3,7 +3,7 @@ CUPS attacker to UDP socket
 
 In this repository it is found a way to take advantage of the UDP socket listening to any message send to port ``631`` which is used by CUPS to find printers.
 
-As well as a way to identified a vulnerable machine and a simple way to block any malicious messages.
+As well as a way to identify a vulnerable machine and a simple way to block any malicious messages.
 
 Connecting a malicious printer
 ------------------------------
@@ -16,7 +16,7 @@ python attack.py <LOCAL_HOST> <TARGET_HOST>
 
 The ``LOCAL_HOST`` is the IP address of the attacker
 
-The ``TARGET_HOST`` would be the victims's local host IP  address
+The ``TARGET_HOST`` would be the victims' local host IP  address
 
 For example this is how the command would look like:
 
@@ -26,14 +26,14 @@ python attack.py 152.138.102.23 143.90.22.223
 
 The port of the printer would always be ``111``. Its location can be found in ``http://localhost:631/printers/Malicious_printer_152_138_102_23``
 
-The print job that the victim starts, the attack will be performad as creating the ``ATTACKED`` file inside ``/tmp/`` with the content ``This machine has been attacked``.
+The print job that the victim starts, the attack will be performed as creating the ``ATTACKED`` file inside ``/tmp/`` with the content ``This machine has been attacked``.
 
 
-Check if your linux machine is vulnerable
+Check if your Linux machine is vulnerable
 -----------------------------------------
 
 To check if your current machine is vulnerable, the UDP port ``631`` can be checked if it is listening to any message.
-Or run the next command inside the linux machine presumed to be vulnerable:
+Or run the next command inside the Linux machine presumed to be vulnerable:
 
 ```
 sudo python3 check_vulnerability.py
