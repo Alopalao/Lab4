@@ -1,57 +1,61 @@
-A minimal IPP server
-====================
+CUPS attacker to UDP socket
+===========================
 
+In this repository it is found a way to take advantage of the UDP socket listening to any message send to port ``631`` which is used by CUPS to find printers.
 
-This is a small python script which __pretends to be a printer__.
+As well as a way to identified a vulnerable machine and a simple way to block any malicious messages.
 
-It works well enough to print documents on my Linux box with CUPS 1.7.5, but it doesn't implement the entire IPP specification.
+Connecting a malicious printer
+------------------------------
 
+To start sending UDP messages, ``attack.py`` needs to be executed as:
 
-Add ipp-server as a printer
----------------------------
-
-Start running the server:
 ```
-python -m ippserver --port 1234 save /tmp/
-```
-
-The server listens to `localhost` by default. The well-known port of 631 is likely to already be in use by the web interface of CUPS, so I'm using port 1234 for this example.
-
-Next, add the printer as you would normally on your computer (ie: the Gnome or KDE add printer dialogs). The printer location is `ipp://localhost:1234/`.
-
-
-Doing things with print jobs
-----------------------------
-
-You can save print jobs as randomly named `.ps` files in a given directory:
-```
-python -m ippserver --port 1234 save /tmp/
+python attack.py <LOCAL_HOST> <TARGET_HOST>
 ```
 
-Alternatively, you can send the postscript files to a command. The following command will run [hexdump(1)] for every print job received. hexdump reads the .ps file from stdin.
-```
-python -m ippserver --port 1234 run hexdump
-```
+The ``LOCAL_HOST`` is the IP address of the attacker
 
-Or why not email print jobs to yourself using [mail(1)]:
+The ``TARGET_HOST`` would be the victims's local host IP  address
+
+For example this is how the command would look like:
+
 ```
-python -m ippserver --port 1234 run \
-	mail -E \
-	-a "MIME-Version 1.0" -a "Content-Type: application/postscript" \
-	-s 'A printed document' some.person@example.com
+python attack.py 152.138.102.23 143.90.22.223
 ```
 
+The port of the printer would always be ``111``. Its location can be found in ``http://localhost:631/printers/Malicious_printer_152_138_102_23``
 
-PDF files
----------
+The print job that the victim starts, the attack will be performad as creating the ``ATTACKED`` file inside ``/tmp/`` with the content ``This machine has been attacked``.
 
-The printer normally advertises itself as a postscript printer. Alternatively, the printer can advertise itself as a PDF printer. This changes the printer description (PPD), so you will need to re-add the printer (eg: with a different port).
 
-Run the printer with `save --pdf`, and add a new printer:
+Check if your linux machine is vulnerable
+-----------------------------------------
+
+To check if your current machine is vulnerable, the UDP port ``631`` can be checked if it is listening to any message.
+Or run the next command inside the linux machine presumed to be vulnerable:
+
 ```
-python -m ippserver --port 7777 save --pdf /tmp/
+sudo python3 check_vulnerability.py
 ```
 
+This script uses ``net-tools`` to check on UDP sockets. This package needs to be installed which it can be done in Ubuntu with:
 
-[hexdump(1)]: https://linux.die.net/man/1/hexdump
-[mail(1)]:  https://linux.die.net/man/1/mail
+```
+sudo apt install net-tools -y
+```
+
+Block UDP listener
+------------------
+
+To block every malicious to printer to automatically connect to a linux machine, the UDP port ``631`` needs to be blocked. Run the following script to block it:
+
+```
+sudo python3 block_udp.py
+```
+
+This script uses Uncomplicated Firewall or ``ufw`` to block any messages. It is installed in any Ubuntu installation but it can be installed with the following command if any problem arises:
+
+```
+sudo apt install ufw -y
+```
